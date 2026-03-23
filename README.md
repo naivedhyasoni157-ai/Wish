@@ -1,1 +1,154 @@
 # Wish
+<!DOCTYPE html>
+<html lang="hi">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>For Teena Soni ❤️</title>
+    <link href="https://fonts.googleapis.com/css2?family=Dancing+Script:wght@700&family=Montserrat:wght@300;600;800&display=swap" rel="stylesheet">
+    <style>
+        :root { --accent: #ff0055; --gold: #ffd700; --bg: #0a0a0a; }
+        * { margin: 0; padding: 0; box-sizing: border-box; -webkit-tap-highlight-color: transparent; }
+        body { background: var(--bg); font-family: 'Montserrat', sans-serif; color: white; height: 100vh; overflow: hidden; display: flex; justify-content: center; align-items: center; }
+
+        /* --- Global Background --- */
+        #canvas { position: fixed; top: 0; left: 0; width: 100%; height: 100%; z-index: -1; background: radial-gradient(circle at center, #1a0510 0%, #050505 100%); }
+
+        /* --- SCREEN 1: THE INTERACTIVE LOCK --- */
+        #page-lock { text-align: center; z-index: 10; transition: 0.8s; }
+        .lock-icon { font-size: 60px; margin-bottom: 20px; animation: pulse 2s infinite; }
+        @keyframes pulse { 0%, 100% { transform: scale(1); opacity: 0.8; } 50% { transform: scale(1.1); opacity: 1; } }
+        .pass-input { background: rgba(255,255,255,0.05); border: 1px solid var(--accent); padding: 15px; border-radius: 15px; color: white; font-size: 1.2rem; text-align: center; width: 200px; text-transform: uppercase; letter-spacing: 5px; outline: none; box-shadow: 0 0 15px rgba(255, 0, 85, 0.3); }
+
+        /* --- MAIN APP INTERFACE --- */
+        #app-content { display: none; width: 100%; height: 100%; flex-direction: column; padding: 20px; animation: zoomIn 0.6s cubic-bezier(0.175, 0.885, 0.32, 1.275); }
+        @keyframes zoomIn { from { opacity: 0; transform: scale(0.5); } to { opacity: 1; transform: scale(1); } }
+
+        .glass-card {
+            background: rgba(255, 255, 255, 0.03);
+            backdrop-filter: blur(25px);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            border-radius: 35px;
+            padding: 30px;
+            height: 65vh;
+            margin-top: 40px;
+            display: none;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            text-align: center;
+            box-shadow: 0 30px 60px rgba(0,0,0,0.6);
+        }
+        .glass-card.active { display: flex; animation: slideIn 0.5s ease-out; }
+        @keyframes slideIn { from { transform: translateX(100px); opacity: 0; } to { transform: translateX(0); opacity: 1; } }
+
+        h1 { font-family: 'Dancing Script', cursive; font-size: 3rem; color: var(--accent); margin-bottom: 10px; text-shadow: 0 0 15px rgba(255,0,85,0.5); }
+        h2 { font-size: 0.8rem; letter-spacing: 3px; color: #888; margin-bottom: 20px; }
+        p { font-size: 1.1rem; line-height: 1.8; color: #ddd; font-weight: 300; }
+        .shyari { font-style: italic; font-size: 1.3rem; color: var(--gold); }
+
+        /* --- NAVIGATION --- */
+        .nav-bar { position: fixed; bottom: 30px; left: 50%; transform: translateX(-50%); width: 85%; max-width: 350px; background: rgba(255,255,255,0.05); border-radius: 25px; display: flex; justify-content: space-around; padding: 15px; border: 1px solid rgba(255,255,255,0.1); backdrop-filter: blur(10px); }
+        .nav-dot { color: #444; font-size: 1.3rem; cursor: pointer; transition: 0.3s; }
+        .nav-dot.active { color: var(--accent); transform: scale(1.3); text-shadow: 0 0 10px var(--accent); }
+
+        /* --- SUPREME COURT PAGE STYLING --- */
+        .sc-badge { background: var(--gold); color: black; padding: 5px 15px; border-radius: 5px; font-weight: 900; font-size: 0.7rem; margin-bottom: 15px; }
+
+        /* --- FLOATING HEARTS --- */
+        .heart { position: absolute; color: var(--accent); pointer-events: none; animation: rise 4s linear forwards; }
+        @keyframes rise { to { transform: translateY(-110vh) rotate(360deg); opacity: 0; } }
+    </style>
+</head>
+<body>
+
+    <div id="canvas"></div>
+
+    <div id="page-lock">
+        <div class="lock-icon">🔐</div>
+        <h1>Teena Soni</h1>
+        <p style="margin-bottom: 20px; opacity: 0.7;">Enter Password to Unlock Love</p>
+        <input type="text" id="pass" class="pass-input" placeholder="NAME?" oninput="checkPass(this)">
+        <p style="margin-top: 15px; font-size: 0.7rem; color: #555;">Hint: Aapka Pyara Naam</p>
+    </div>
+
+    <div id="app-content">
+        <div class="glass-card active" id="p1">
+            <div style="font-size: 40px;">📅</div>
+            <h1>5 Months!</h1>
+            <h2>HAPPY ANNIVERSARY</h2>
+            <p>Shaadi ke ye <span style="color:var(--accent); font-weight:600;">5 haseen mahine</span>... <br>Aapke saath bitaya har ek din kisi tohfe se kam nahi hai.</p>
+        </div>
+
+        <div class="glass-card" id="p2">
+            <div style="font-size: 40px;">✍️</div>
+            <h1>Aapke Liye...</h1>
+            <h2>DIL SE SHYARI</h2>
+            <p class="shyari">"Safar wahi tak hai jahan tak Aap hain,<br>Nazar wahi tak hai jahan tak Aap hain,<br>Phool toh bahut dekhe hain is gulshan mein,<br>Par khushbu wahi tak hai jahan tak Aap hain."</p>
+        </div>
+
+        <div class="glass-card" id="p3">
+            <div style="font-size: 40px;">✨</div>
+            <h1>Aapka Saath</h1>
+            <h2>EVERY MOMENT MATTERS</h2>
+            <p>In 150 dino mein Aapne mujhe poora kiya hai. Aapka care karna aur bina kahe sab samajh lena... Aap meri sabse badi blessing hain.</p>
+        </div>
+
+        <div class="glass-card" id="p4">
+            <div class="sc-badge">OFFICIAL VERDICT</div>
+            <div style="font-size: 50px;">⚖️</div>
+            <h1>I Love You</h1>
+            <p style="font-size: 1.5rem; margin: 15px 0;">Teena Soni</p>
+            <h1 style="font-size: 2.2rem; color: var(--gold);">My Supreme Court</h1>
+            <p style="font-size: 0.9rem; opacity: 0.7; margin-top: 10px;">Aapka har faisla sir-ankhon par!</p>
+        </div>
+
+        <div class="nav-bar">
+            <div class="nav-dot active" onclick="nav(0, this)">🏠</div>
+            <div class="nav-dot" onclick="nav(1, this)">🖋️</div>
+            <div class="nav-dot" onclick="nav(2, this)">💖</div>
+            <div class="nav-dot" onclick="nav(3, this)">⚖️</div>
+        </div>
+    </div>
+
+    <script>
+        // Check Password Interaction
+        function checkPass(input) {
+            if (input.value.toUpperCase() === "TEENA") {
+                document.getElementById('page-lock').style.opacity = '0';
+                document.getElementById('page-lock').style.transform = 'scale(2)';
+                setTimeout(() => {
+                    document.getElementById('page-lock').style.display = 'none';
+                    document.getElementById('app-content').style.display = 'flex';
+                    setInterval(spawnHeart, 400);
+                }, 800);
+            }
+        }
+
+        // App Navigation
+        function nav(index, el) {
+            const cards = document.querySelectorAll('.glass-card');
+            const dots = document.querySelectorAll('.nav-dot');
+            cards.forEach(c => c.classList.remove('active'));
+            dots.forEach(d => d.classList.remove('active'));
+            cards[index].classList.add('active');
+            el.classList.add('active');
+            
+            // Haptic feedback feel
+            if (window.navigator.vibrate) window.navigator.vibrate(30);
+        }
+
+        // Particle System
+        function spawnHeart() {
+            const h = document.createElement('div');
+            h.innerHTML = "❤️";
+            h.className = "heart";
+            h.style.left = Math.random() * 100 + "vw";
+            h.style.top = "100vh";
+            h.style.fontSize = Math.random() * 20 + 15 + "px";
+            document.body.appendChild(h);
+            setTimeout(() => h.remove(), 4000);
+        }
+    </script>
+</body>
+</html>
